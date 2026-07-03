@@ -8,7 +8,7 @@ const Clarifai = require('clarifai');
 //OLDER WAY: We no longer use Clarifai API
 const returnClarifaiRequestOptions = (imageUrl) => {
   // Your PAT (Personal Access Token) can be found in Clarifai's Account Security section
-  const PAT = 'YOUR_PAT_HERE';
+  const PAT = '89094d6172464fbcb0ab46fe15dfc473';
   // You can keep the 'clarifai'/'main' without changing it to your own unless you want to. 
   // This will use the public Clarifai model so you dont need to create an app:
   const USER_ID = 'clarifai';       
@@ -46,34 +46,34 @@ const handleApiCall = (req, res) => {
   //OLDEST WAY:
   // app.models.predict('face-detection', req.body.input)
   //OLDER WAY:
-  // fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", returnClarifaiRequestOptions(req.body.input))
-  //   .then(response => response.json())
-  //   .then(data => {
-  //     console.log('hit:', data)
-  //     res.json(data);
-  //   })
-  //   .catch(err => res.status(400).json('unable to work with API'))
-  const sendImageToHuggingFaceWithFetch = async (imageUrl) => {
-    const response = await fetch(imageUrl);
-    const contentType = response.headers.get("content-type");
-    const imageBlob = await response.blob();
+  fetch("https://api.clarifai.com/v2/models/" + 'face-detection' + "/outputs", returnClarifaiRequestOptions(req.body.input))
+    .then(response => response.json())
+    .then(data => {
+      console.log('hit:', data)
+      res.json(data);
+    })
+    .catch(err => res.status(400).json('unable to work with API'))
+  // const sendImageToHuggingFaceWithFetch = async (imageUrl) => {
+  //   const response = await fetch(imageUrl);
+  //   const contentType = response.headers.get("content-type");
+  //   const imageBlob = await response.blob();
 
-    const apiResponse = await fetch("https://router.huggingface.co/hf-inference/models/facebook/detr-resnet-50",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${"YOUR_API_KEY_HERE"}`,
-          "Content-Type": contentType,
-        },
-        body: imageBlob,
-      },
-    );
+  //   const apiResponse = await fetch("https://router.huggingface.co/hf-inference/models/facebook/detr-resnet-50",
+  //     {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${"YOUR_API_KEY_HERE"}`,
+  //         "Content-Type": contentType,
+  //       },
+  //       body: imageBlob,
+  //     },
+  //   );
 
-    const result = await apiResponse.json();
-    res.json(result);
-  };
+  //   const result = await apiResponse.json();
+  //   res.json(result);
+  // };
   
-  sendImageToHuggingFaceWithFetch(req.body.input)
+  // sendImageToHuggingFaceWithFetch(req.body.input)
 }
 
 const handleImage = (req, res, db) => {
