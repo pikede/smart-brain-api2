@@ -22,11 +22,8 @@ app.use(morgan('combined'));
 app.use(cors())
 app.use(express.json()); // latest version of exressJS now comes with Body-Parser!
 
-app.get('/', (req, res)=> {  
-  res.send('Its working!!!')
-  //{ res.send(db.users) })
-}) 
-app.post('/signin', signin.handleSignin(db, bcrypt))
+app.get('/', (req, res)=> { res.send('Its working!!!')} ) 
+app.post('/signin', signin.signInAuthentication(db, bcrypt))
 app.post('/register', (req, res) => { register.handleRegister(req, res, db, bcrypt) })
 app.get('/profile/:id', (req, res) => { profile.handleProfileGet(req, res, db)})
 app.post('/profile/:id', (req, res) => { profile.handleProfileUpdate(req, res, db)})
